@@ -1,0 +1,6 @@
+fprintf(fp,'%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t\n',...
+    'subNo','gender','name','TrialNum','position_chose','chose_RT','confidence_rating','confidence_rating_RT','position_chose1','position_chose2','raw_chose_leader','Version');
+
+
+fprintf(fp,'%d\t%d\t%s\t%d\t%d\t%f\t%d\t%f\t%d\t%f\t%d\t%d\t%d\t%d\t%d\n',...
+                    subNo,gender,name,TrialNum,position_chose,chose_RT,confidence_rating,confidence_rating_RT,decision_RT,decision_confidence_rating,decision_confidence_rating_RT,position_chose1,position_chose2,raw_chose_leader,Version);
