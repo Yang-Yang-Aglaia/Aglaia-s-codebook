@@ -1,0 +1,20 @@
+1、安装时出现问题：找不到指定模块。
+答：找到官网，按照官网指示下载、安装文件。
+2、图片读不出来（294-302行）。
+答：漏了drawtexture语句。【Screen('DrawTexture',w1, belt_figure);】
+3、背景颜色和屏幕颜色不对成。
+答：将背景颜色设置成透明色。【】
+4、错误使用 imread (line 349)  文件 "E:\ScholarFight\Experiment design\Exp1\Exp_procedure\Picture_group\21_5.jpg" 不存在。
+     出错 MixStarDecision (line 299)
+            dot_pic = imread(fullfile(cue_dir,filename)); %读取图片
+答：文件夹打开错了，所以没有文件。或者名字不对，所以也找不到。
+5、电脑联结失败的原因
+答：checkconnection中保留多个条件定义，只需要修改控制条件。
+6、评分后无法换屏，即只能不断将三角图标向左移，而不是选了一次就停止。
+答：选完之后要按停止键。
+7、链接不成功。
+答：改变checkconnection中的数字。
+8、反馈屏停留很长时间。
+答：fwrite和fread放在后面的原因。
+9、屏幕闪过。
+答：waitsecs语句应该放在flip的后面，而不是前面。

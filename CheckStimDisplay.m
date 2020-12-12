@@ -6,7 +6,7 @@ function [chose_onset]=CheckStimDisplay(CheckStinum,iidprac,checki,w1,Checkcue_d
 numi = iidprac(checki);
 chose_onset = GetSecs;    %按键开始时间
 %%%准备刺激
-pngs = dir('D:\Yangyang\ExpOne\FinalExpProcedureClient\CheckMaterial\*.png');  %读取文件夹中所有文件
+pngs = dir('D:\Yangyang20201113\ExpOne\FinalExpProcedureServer\CheckMaterial\*.png');  %读取文件夹中所有文件
 picname = randperm(5,5); %不重复随机整数矩阵
 filename = pngs(picname(checki)).name;  %得到图片的名字
 S = regexp(filename, '_', 'split');  %分割出数字

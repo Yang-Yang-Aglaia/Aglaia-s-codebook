@@ -7,7 +7,7 @@ numi = iid(i);
 chose_onset = GetSecs;    %按键开始时间
 picid = stinum(numi);
 %%%准备刺激
-pngs = dir('D:\Yangyang\ExpOne\FinalExpProcedureClient\material_group\*.jpg');  %读取文件夹中所有文件
+pngs = dir('D:\Yangyang20201113\ExpOne\FinalExpProcedureServer\material_group\*.jpg');  %读取文件夹中所有文件
 picname = randperm(42,42); %不重复随机整数矩阵
 filename = pngs(picname(stimi)).name;  %得到图片的名字
 S = regexp(filename, '_', 'split');  %分割出数字
@@ -63,7 +63,7 @@ WaitSecs(1.5);  %呈现时间
 % Screen('FrameRect', w1, black, [xCenter+425 yCenter-15 xCenter+63 yCenter+150],[1]);%不需要框
 Bigword = double('大');
 Smallword = double('小');
-DrawFormattedText(w1,double(['你认为上图中的点数与',num2str(picid),'的关系']),xCenter ,yCenter+8.5*font_size-100, black,[],[],[],2);  %xCenter+470 ,yCenter+8.5*font_size-300
+DrawFormattedText(w1,double(['你认为上图中的点数与',num2str(picid),'的关系']),xCenter ,yCenter+8.5*font_size-100, black,[],[],[],2);  %xCenter-300 ,yCenter+8.5*font_size-200,，xCenter+470 ,yCenter+8.5*font_size-300
 DrawFormattedText(w1,Bigword,xCenter-100 ,yCenter+8.5*font_size+100, 1, [],[],[],2);
 DrawFormattedText(w1,Smallword,xCenter+100 ,yCenter+8.5*font_size+100, 1, [],[],[],2);
 Screen(w1, 'TextSize', 30);
