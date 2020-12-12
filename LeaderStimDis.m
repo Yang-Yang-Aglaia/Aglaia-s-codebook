@@ -1,4 +1,4 @@
-function LeaderStimDis()
+function LeaderStimDis(w1,xCenter,yCenter,font_size)
 Bigword = double('大');
 Smallword = double('小');
 DrawFormattedText(w1,double('请代表你的团队做出选择'),'Center',yCenter+250,1,[],[],[],2);

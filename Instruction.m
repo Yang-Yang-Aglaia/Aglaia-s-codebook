@@ -5,8 +5,10 @@ Screen(w1, 'TextSize', 30);
 DrawFormattedText(w1,InstructionText,'center','center', 1, [],[],[],2);
 Screen('Flip',w1);
 
+%%%% PTB中需要定义screen函数，然后定义按键，这才是一个完整按键过程。
+% 按键
 start_yes = 0;
-%RestrictKeysForKbCheck([start_roleM start_roleN escape_roleM escape_roleN]);
+% RestrictKeysForKbCheck([start_roleM start_roleN escape_roleM escape_roleN]);
 [KeyIsDown, tempt, KeyCode] = KbCheck;
 while start_yes == 0
     [KeyIsDown, tempt, KeyCode] = KbCheck;
@@ -24,6 +26,6 @@ while start_yes == 0
         break;
     end
 end
-WaitSecs(1.5);
+WaitSecs(1.5);  %注视点时间
 %RestrictKeysForKbCheck([]);
 KeyIsDown = 0;
