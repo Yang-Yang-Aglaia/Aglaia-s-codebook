@@ -1,0 +1,91 @@
+---
+title: "Graphs"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r simulation network}
+library(igraph)
+#degree.sequence.game     # 生成去中心化网络，N：结点数；k：每个结点的中心度
+#barabasi.game     # 生成中心化网络，N：结点数；k：每个结点的中心度，p: 优先强度（power）
+
+## The simple generator
+g <- sample_degseq(rep(2,100))
+degree(g)
+is_simple(g)   # sometimes TRUE, but can be FALSE
+g2 <- sample_degseq(1:10, 10:1)
+degree(g2, mode="out")
+degree(g2, mode="in")
+
+
+## The vl generator
+g3 <- sample_degseq(rep(2,100), method="vl")
+degree(g3)
+is_simple(g3)  # always TRUE
+
+## Exponential degree distribution
+## Note, that we correct the degree sequence if its sum is odd
+degs <- sample(1:100, 100, replace=TRUE, prob=exp(-0.5*(1:100)))
+if (sum(degs) %% 2 != 0) { degs[1] <- degs[1] + 1 }
+g4 <- sample_degseq(degs, method="vl")
+all(degree(g4) == degs)
+
+## Power-law degree distribution
+## Note, that we correct the degree sequence if its sum is odd
+degs <- sample(1:100, 100, replace=TRUE, prob=(1:100)^-2)
+if (sum(degs) %% 2 != 0) { degs[1] <- degs[1] + 1 }
+g5 <- sample_degseq(degs, method="vl")
+all(degree(g5) == degs)
+
+```
+```{r 利用数据画图}
+library(igraph)
+data =  read.csv("E:\\ScholarFight\\Experiment design\\Exp1\\Data\\Outcomes\\Whole_data_dup.csv")
+# 格式应该为每个人一行数剧，其中领导者和非领导者的数据应该在一起
+group_data = subset(data, data$groupid == 6)   #取单独一组的数据
+relations = data.frame(from = c('2601'),   #,'3101','3601','6601','8101'
+                       to = c('2701','2801','2901','3001'),
+                       same.dept=c(TRUE,TRUE,TRUE,TRUE),
+                       friendship=c(1,1,1,1), advice=c(1,1,1,1))  # 这两个参数表示的是边属性
+group_data2 = group_data[,-1]  # 第一列必须是名字
+g <- graph_from_data_frame(relations, directed=FALSE, vertices=group_data2)
+print(g, e=TRUE, v=TRUE)
+
+## The opposite operation
+as_data_frame(g, what="vertices")
+as_data_frame(g, what="edges")
+
+# 可视化
+plot(g)
+
+```
+```{r example}
+actors <- data.frame(name=c("Alice", "Bob", "Cecil", "David",
+                            "Esmeralda"),
+                     age=c(48,33,45,34,21),
+                     gender=c("F","M","F","M","F"))
+relations <- data.frame(from=c("Bob", "Cecil", "Cecil", "David",
+                               "David", "Esmeralda"),
+                        to=c("Alice", "Bob", "Alice", "Alice", "Bob", "Alice"),
+                        same.dept=c(FALSE,FALSE,TRUE,FALSE,FALSE,TRUE),
+                        friendship=c(4,5,5,2,1,1), advice=c(4,5,5,4,2,3))
+gg <- graph_from_data_frame(relations, directed=TRUE, vertices=actors)
+print(g, e=TRUE, v=TRUE)
+
+## The opposite operation
+as_data_frame(gg, what="vertices")
+as_data_frame(gg, what="edges")
+
+plot(gg)
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

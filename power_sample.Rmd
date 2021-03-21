@@ -1,0 +1,82 @@
+---
+title: "the relationship of sample size and power"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r 二分变量}
+# 已知样本量计算power
+power.prop.test(n=30,p1=0.5,p2=0.5) 
+
+# 已知power计算样本量
+power.prop.test(power=0.8,p1=0.7,p2=0.3) 
+
+
+```
+```{r 连续变量}
+# 已知样本量求power
+power.t.test(n=28,delta=0.5,sd=0.28,type="two.sample")   # 均值差值为0.5，离散程度sd为0.28
+
+# 已知power求样本量
+power.t.test(power=0.8,delta=0.5,sd=0.28,type="two.sample") 
+
+
+```
+```{r 可视化}
+# 已知样本量求power，然后画散点图
+samplesizes <- seq(from=10,to=200,by=10)
+power.samplesizes <- power.prop.test(n=samplesizes,p1=0.7,p2=0.3)$power
+plot(samplesizes,
+     power.samplesizes,
+     xlim=c(0,200),
+     xlab="Sample size",
+     ylab="Expected power",
+     ylim=c(0,1),
+     type="b",
+     col="darkorange",
+     lwd=5,axes=FALSE)
+axis(1,at=c(0,50,100,150,200))
+axis(2,at=c(0,0.25,0.5,0.75,1),labels=paste(c(0,25,50,75,100),"%")) 
+
+
+
+
+# 已知power求sample，然后求散点图
+differences <- seq(from=0.1,to=2,by=0.1)
+samplesize.sd04 <- sapply(differences,  # 对difference中每个元素运行后面的函数
+                          function(d){power.t.test(power=0.9,# 指定功效
+                                                   delta=d,#赋值difference
+                                                   sd=0.4,
+                                                   type="two.sample")$n})
+samplesize.sd03 <- sapply(differences,
+                          function(d){power.t.test(power=0.9,
+                                                   delta=d,
+                                                   sd=0.3,
+                                                   type="two.sample")$n})
+plot(differences,
+     samplesize.sd04,
+     xlim=c(0,2),
+     xlab="Expected difference between groups",
+     ylab="Required sample size",
+     ylim=c(0,350),
+     type="b",
+     col="darkblue",
+     lwd=5,axes=FALSE)
+lines(differences, samplesize.sd03,col="turquoise",lwd=5,type="b")
+axis(1,at=c(0,0.2,0.5,1,1.5,2))
+axis(2,at=c(350,100,50,10,0))
+legend(x="topright",lwd=5,bty="n",legend=c("SD=0.4","SD=0.3"),col=c("darkblue","turquoise")) 
+
+
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
